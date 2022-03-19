@@ -1,22 +1,38 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
 
-  urlImg = 'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/'
-  listaPokemon = [
-    {numero: 1, nome: 'Bulbasaur', tipos: ['grass', 'poison'], foto:'001.png'},
-    {numero: 4, nome: 'Charmander', tipos: ['fire'], foto:'004.png'},
-    {numero: 7, nome: 'Squirtle', tipos: ['water'], foto:'007.png'},
-    {numero: 25, nome: 'Pikachu', tipos: ['eletric'], foto:'025.png'},
-    {numero: 149, nome: 'Dragonite', tipos: ['dragon', 'flying'], foto:'149.png'},
-    
-  ];
+  urlImg = 'https://assets.pokemon.com/assets/cms2/img/pokedex/detail/';
 
-  constructor() {}
+  listaPokemon = [];
 
+  count: number = 0;
+  next: string = "";
+  previous: string = "";
+
+  constructor(public apiService: ApiService) { }
+
+  ngOnInit(): void {
+    this.buscarPokemon(this.apiService.urlApi);
+  }
+
+  buscarPokemon(url: string)
+  {
+    this.listaPokemon = [];
+    this.apiService.buscarListaPokemon(url).subscribe(retorno =>{console.log(retorno)
+      this.count = retorno['count'];
+      this.next = retorno['next'];
+      this.previous = retorno['previous'];
+  
+      retorno['results'].forEach(pokemon => {
+        this.apiService.buscarDadosPokemon(pokemon['url']).subscribe(dadosPokemon =>{this.listaPokemon.push(dadosPokemon)});
+      });
+      });
+  }
 }
