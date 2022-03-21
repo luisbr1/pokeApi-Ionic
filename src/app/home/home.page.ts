@@ -35,4 +35,8 @@ export class HomePage implements OnInit {
       });
       });
   }
+
+  totalPaginas(numero: number){
+    return Math.ceil(numero/20);
+  }   
 }
