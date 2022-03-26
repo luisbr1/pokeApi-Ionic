@@ -30,13 +30,13 @@
 <ion-footer>
   <ion-toolbar>
     <ion-buttons slot="start" *ngIf="previous">
-      <ion-button (click)="buscarPokemon(previous)">
+      <ion-button (click)="paginaAnterior(previous)">
         <ion-icon slot="icon-only" name="caret-back-circle-outline"></ion-icon>
       </ion-button>
     </ion-buttons>   
-    <ion-title class="ion-text-center">{{totalPaginas(count)}}</ion-title>    
+    <ion-title class="ion-text-center">{{paginaAtual}}/{{totalPaginas(count)}}</ion-title>    
     <ion-buttons slot="end" *ngIf="next">
-      <ion-button (click)="buscarPokemon(next)">
+      <ion-button (click)="proximaPagina(next)">
         <ion-icon slot="icon-only" name="return-up-forward-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
